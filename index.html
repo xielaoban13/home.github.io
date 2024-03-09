@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Dream Home">
+    <meta name="description" content="DREAM Home">
     <meta name="keywords" content="Dream,Homepage">
     <meta name="author" content="Dream">
     <title>Dream Home</title>
@@ -89,7 +89,7 @@
                                         </a>
                                     </li>
                                     <li class="navigation__item">
-                                        <a href="https://photo.dreamzhm519.eu.org/" title="photo" target="_blank">
+                                        <a href="http://www.apesk.com/mbti/dati_hr_28_m_gzh.asp?hr_email=40373192" title="work" target="_blank">
                                             <i class='social iconfont icon-cnblogs'></i>
                                             <span class="label">cnblogs</span>
                                         </a>
@@ -128,6 +128,32 @@
     <script type="text/javascript" src="https://unpkg.com/dmego-home-page@latest/assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/dmego-home-page@latest/assets/js/main.js"></script>
     <script type="text/javascript" src="./assets/json/images.json?cb=getBingImages"></script>
+     <script>
+//屏蔽F12和右键
+ function click(e) {
+ if (document.all) {
+ if (event.button == 2 || event.button == 3) {
+ alert("欢迎光临寒舍，有什么需要帮忙的话，请与站长联系！谢谢您的合作！！！");
+          oncontextmenu = 'return false';
+        }
+      }
+ if (document.layers) {
+ if (e.which == 3) {
+          oncontextmenu = 'return false';
+        }
+      }
+    }
+ if (document.layers) {
+      document.captureEvents(Event.MOUSEDOWN);
+    }
+    document.onmousedown = click;
+    document.oncontextmenu = new Function("return false;")
+document.onkeydown = document.onkeyup = document.onkeypress = function () {
+ if (window.event.keyCode == 123) {
+        window.event.returnValue = false;
+ return (false);
+      }
+    }
 </body>
 </html>
 
