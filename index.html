@@ -8,258 +8,187 @@
     <meta name="keywords" content="Dream,Homepage">
     <meta name="author" content="Dream">
     <title>Dream Home</title>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/dmego-home-page@latest/assets/css/onlinewebfonts.css"/>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/dmego-home-page@latest/assets/css/vno.css">
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/dmego-home-page@latest/assets/css/iconfont.css">
-    <link rel="apple-touch-icon" href="https://unpkg.com/dmego-home-page@latest/apple-touch-icon.png">
-    <link rel="icon" href="https://unpkg.com/dmego-home-page@latest/favicon.ico">
+    <!-- 完全移除可能冲突的外部CSS，所有样式内置 -->
     <style>
-        /* 全局样式重置 */
+        /* 全局基础样式 - 确保所有元素正常显示 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            /* 强制显示所有元素，避免被外部样式隐藏 */
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
         body {
             font-family: "Microsoft Yahei", sans-serif;
+            color: #fff;
         }
-        /* 背景面板核心样式 - 确保背景图铺满屏幕且加载顺滑 */
-        #panel.panel-cover {
+        /* 背景面板 - 核心样式 */
+        #panel {
             background-repeat: no-repeat;
             background-position: center center;
             background-size: cover;
             height: 100vh;
             width: 100vw;
             position: relative;
-            /* 背景图加载过渡动画 */
-            transition: background-image 0.8s ease-in-out;
+            padding: 20px;
         }
-        /* 背景遮罩层 - 让文字更清晰，不被背景图淹没 */
-        .panel-cover--overlay {
+        /* 背景遮罩层 */
+        .panel-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.6);
             z-index: 1;
         }
-        /* 内容层 - 显示在遮罩层上方 */
-        .panel-main {
+        /* 内容容器 - 确保在遮罩层上方 */
+        .content-wrapper {
             position: relative;
             z-index: 2;
-            padding: 20px;
-            color: #fff;
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
             text-align: center;
-            padding-top: 80px;
+            padding-top: 50px;
         }
-        /* 头像样式优化 */
-        .js-avatar {
+        /* 头像样式 - 强制显示 */
+        .avatar {
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            object-fit: cover;
             border: 3px solid #fff;
+            margin: 0 auto 20px;
+        }
+        /* 头像下方文字 */
+        .avatar-text {
             margin-bottom: 20px;
         }
-        /* 按钮样式优化 - 悬停有渐变效果，确保按钮不挤在一起 */
-        .blog-button {
+        .avatar-text h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .avatar-text p {
+            font-size: 16px;
+        }
+        /* 标题样式 */
+        .main-title {
+            font-size: 36px;
+            margin: 20px 0;
+            text-decoration: none;
+            color: #fff;
+        }
+        .sub-title {
+            font-size: 18px;
+            margin: 15px 0;
+        }
+        /* 描述文本 */
+        .description {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 20px 0 30px;
+        }
+        /* 导航按钮样式 */
+        .nav-group {
+            margin: 20px 0;
+        }
+        .nav-button {
+            display: inline-block !important;
             color: #fff;
             text-decoration: none;
             padding: 10px 18px;
-            margin: 0 8px 15px 8px; /* 增加间距，避免按钮重叠 */
+            margin: 0 8px 15px;
             border: 1px solid #fff;
             border-radius: 6px;
-            display: inline-block;
-            transition: all 0.3s;
-            background-color: rgba(255, 255, 255, 0.1);
             font-size: 15px;
+            background: rgba(255, 255, 255, 0.1);
         }
-        .blog-button:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
-        /* 文字样式优化 */
-        .panel-title a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 36px;
-            margin: 20px 0;
-            display: inline-block;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        /* 社交导航 */
+        .social-nav {
+            margin-top: 30px;
         }
-        .panel-subtitle {
-            font-size: 18px;
-            margin: 15px 0 25px 0;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
-        .panel-cover__description {
-            font-size: 16px;
-            line-height: 1.6;
-            margin: 20px 0 30px 0;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
-        /* 导航样式 - 确保模块分行显示，不拥挤 */
-        .navigation {
-            list-style: none;
-            margin: 15px 0;
-            padding: 0;
-        }
-        .navigation__item {
-            display: inline-block;
-            margin: 0 5px;
-        }
-        /* 社交导航单独间距 */
-        .navigation--social .navigation__item {
-            margin: 0 10px;
-        }
-        .navigation--social .blog-button {
+        .social-nav .nav-button {
             padding: 8px 12px;
             font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <span class="mobile btn-mobile-menu">
-        <i class="social iconfont icon-list btn-mobile-menu__icon"></i>
-        <i class="social iconfont icon-angleup btn-mobile-close__icon hidden"></i>
-    </span>
-    <header id="panel" class="panel-cover">
-        <div class="panel-main">
-            <div class="panel-main__inner panel-inverted">
-                <div class="panel-main__content">
-                    <!-- 头像区域（替换成自己的头像URL即可） -->
-                    <div class="ih-item circle effect right_to_left">            
-                        <a href="#" title="" class="blog-button">
-                            <div class="img">
-                                <img src="https://picsum.photos/id/64/150/150" alt="头像" class="js-avatar iUp profilepic">
-                            </div>
-                            <div class="info iUp">
-                                <div class="info-back">
-                                    <h2>之昂張</h2>
-                                    <p>2024 · 勇敢</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <!-- 标题区域 -->
-                    <h1 class="panel-cover__title panel-title iUp">
-                        <a href="#" title="Dream Home">Dream</a>
-                    </h1>
-                    <p class="panel-cover__subtitle panel-subtitle iUp">知其不可奈何而安之若命.</p>
-                    <hr class="panel-cover__divider iUp" />
-                    
-                    <!-- 描述区域 -->
-                    <p id="description" class="panel-cover__description iUp">
-                        如何得与凉风约, 不共尘沙一并来!
-                        <br/>
-                        <strong>-「青云如梦」</strong>
-                    </p>
-                    
-                    <!-- 主导航模块（完整保留：性格测试、加我QQ、资源库吖、找我办卡） -->
-                    <div class="navigation-wrapper iUp">
-                        <div>
-                            <nav class="cover-navigation cover-navigation--primary">
-                                <ul class="navigation">
-                                    <li class="navigation__item">
-                                        <a href="https://sourl.cn/z2J7Qi" class="blog-button" target="_blank">性格测试</a>
-                                    </li>
-                                   <li class="navigation__item">
-                                        <a href="https://qm.qq.com/cgi-bin/qm/qr?k=tSCqfVp5bGVenjcpQ-pEebLCpZa3LdXJ" class="blog-button" target="_blank">加我QQ</a>
-                                    </li>
-                                  <li class="navigation__item">
-                                        <a href="https://sourl.cn/z29mh7" class="blog-button" target="_blank">资源库吖</a>
-                                    </li>
-                                    <li class="navigation__item">
-                                        <a href="https://ym.ksjhaoka.com/?s=Lh5y9BsT57680" class="blog-button" target="_blank">找我办卡</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                        
-                        <!-- 社交导航模块（完整保留） -->
-                        <div class="iUp" style="margin-top: 20px;">
-                            <nav class="cover-navigation navigation--social">
-                                <ul class="navigation">
-                                    <li class="navigation__item">
-                                        <a href="https://sourl.cn/YpZQkR" title="网抑云" target="_blank">
-                                            <i class='social iconfont icon-github'></i>
-                                            <span class="label">github</span>
-                                        </a>
-                                    </li>
-                                    <li class="navigation__item">
-                                        <a href="https://www.apesk.com/mbti/dati28N.asp" title="人格测试" target="_blank">
-                                            <i class='social iconfont icon-cnblogs'></i>
-                                            <span class="label">cnblogs</span>
-                                        </a>
-                                    </li>
-                                    <li class="navigation__item">
-                                        <a href="https://dai.dreamzhm519.eu.org/proxy/www.google.com/search?q=" title="google" target="_blank">
-                                            <i class='social iconfont icon-zhihu'></i>
-                                            <span class="label">zhihu</span>
-                                        </a>
-                                    </li>
-                                    <li class="navigation__item">
-                                        <a href="javascript:decryptEmail('eGllbGFvYmFuNDczQGdtYWlsLmNvbQ==');" title="email">
-                                            <i class='social iconfont icon-email'></i>
-                                            <span class="label">email</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
+    <!-- 背景面板 -->
+    <div id="panel">
+        <!-- 背景遮罩 -->
+        <div class="panel-overlay"></div>
+        <!-- 核心内容 -->
+        <div class="content-wrapper">
+            <!-- 头像区域（强制显示） -->
+            <img src="https://picsum.photos/id/64/150/150" alt="头像" class="avatar">
+            <div class="avatar-text">
+                <h2>之昂張</h2>
+                <p>2024 · 勇敢</p>
             </div>
-            <div class="panel-cover--overlay cover-slate"></div>
-        </div>
-        <div class="remark iUp"></div>      
-    </header>
 
-    <!-- 背景图加载核心脚本（Picsum + Unsplash 双图源） -->
+            <!-- 标题 -->
+            <a href="#" class="main-title">Dream</a>
+            <p class="sub-title">知其不可奈何而安之若命.</p>
+            <hr style="margin: 20px 0; border: 1px solid rgba(255,255,255,0.3)">
+
+            <!-- 描述 -->
+            <div class="description">
+                如何得与凉风约, 不共尘沙一并来!
+                <br/>
+                <strong>-「青云如梦」</strong>
+            </div>
+
+            <!-- 主导航（性格测试等，强制显示） -->
+            <div class="nav-group">
+                <a href="https://sourl.cn/z2J7Qi" class="nav-button" target="_blank">性格测试</a>
+                <a href="https://qm.qq.com/cgi-bin/qm/qr?k=tSCqfVp5bGVenjcpQ-pEebLCpZa3LdXJ" class="nav-button" target="_blank">加我QQ</a>
+                <a href="https://sourl.cn/z29mh7" class="nav-button" target="_blank">资源库吖</a>
+                <a href="https://ym.ksjhaoka.com/?s=Lh5y9BsT57680" class="nav-button" target="_blank">找我办卡</a>
+            </div>
+
+            <!-- 社交导航 -->
+            <div class="social-nav">
+                <a href="https://sourl.cn/YpZQkR" class="nav-button" target="_blank">
+                    <span>github</span>
+                </a>
+                <a href="https://www.apesk.com/mbti/dati28N.asp" class="nav-button" target="_blank">
+                    <span>cnblogs</span>
+                </a>
+                <a href="https://dai.dreamzhm519.eu.org/proxy/www.google.com/search?q=" class="nav-button" target="_blank">
+                    <span>zhihu</span>
+                </a>
+                <a href="mailto:xiaolaoban473@gmail.com" class="nav-button" target="_blank">
+                    <span>email</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 背景图脚本 - 极简版，确保加载 -->
     <script>
-        // 背景图列表：混合Picsum（指定ID固定风格）+ Unsplash（主题随机）
-        const backgroundImages = [
-            // Picsum指定ID图（风格固定，不会随机变）
-            "https://picsum.photos/id/1018/1920/1080", // 雪山风景
-            "https://picsum.photos/id/1039/1920/1080", // 湖景
-            "https://picsum.photos/id/1043/1920/1080", // 森林
-            // Unsplash主题随机图（每次刷新换不同的同主题图）
-            "https://source.unsplash.com/random/1920x1080/?star,night", // 星空夜景
-            "https://source.unsplash.com/random/1920x1080/?ocean,wave", // 海洋波浪
-            "https://source.unsplash.com/random/1920x1080/?flower,spring", // 春日花卉
-            "https://source.unsplash.com/random/1920x1080/?mountain,sky" // 山川天空
+        // 背景图列表（Picsum+Unsplash）
+        const bgImages = [
+            "https://picsum.photos/id/1018/1920/1080",
+            "https://picsum.photos/id/1039/1920/1080",
+            "https://source.unsplash.com/random/1920x1080/?star,night",
+            "https://source.unsplash.com/random/1920x1080/?ocean,wave"
         ];
 
-        // 随机选择一张背景图并设置
-        function setRandomBackground() {
-            const randomIndex = Math.floor(Math.random() * backgroundImages.length);
-            const randomImageUrl = backgroundImages[randomIndex];
-            const panel = document.getElementById('panel');
-            if (panel) {
-                // 先加载图片再设置，避免白屏
-                const img = new Image();
-                img.src = randomImageUrl;
-                img.onload = function() {
-                    panel.style.backgroundImage = `url(${randomImageUrl})`;
-                };
-            }
+        // 随机设置背景图
+        function setBg() {
+            const randomImg = bgImages[Math.floor(Math.random() * bgImages.length)];
+            document.getElementById('panel').style.backgroundImage = `url(${randomImg})`;
         }
 
-        // 页面加载完成后自动设置背景图
-        window.addEventListener('load', setRandomBackground);
-
-        // 可选：点击页面刷新背景图（增加互动性）
-        document.getElementById('panel').addEventListener('click', setRandomBackground);
-
-        // 邮箱解密函数（保留原有功能）
-        function decryptEmail(encoded) {
-            const decoded = atob(encoded);
-            window.location.href = `mailto:${decoded}`;
-        }
+        // 页面加载立即设置
+        window.onload = setBg;
+        // 点击页面切换背景
+        document.getElementById('panel').onclick = setBg;
     </script>
 </body>
 </html>
