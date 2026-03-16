@@ -23,7 +23,7 @@
         body {
             font-family: "Microsoft Yahei", sans-serif;
         }
-        /* 背景面板核心样式 - 确保背景图铺满屏幕 */
+        /* 背景面板核心样式 - 确保背景图铺满屏幕且加载顺滑 */
         #panel.panel-cover {
             background-repeat: no-repeat;
             background-position: center center;
@@ -31,8 +31,10 @@
             height: 100vh;
             width: 100vw;
             position: relative;
+            /* 背景图加载过渡动画 */
+            transition: background-image 0.8s ease-in-out;
         }
-        /* 背景遮罩层 - 让文字更清晰 */
+        /* 背景遮罩层 - 让文字更清晰，不被背景图淹没 */
         .panel-cover--overlay {
             position: absolute;
             top: 0;
@@ -48,58 +50,74 @@
             z-index: 2;
             padding: 20px;
             color: #fff;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             text-align: center;
             padding-top: 80px;
         }
-        /* 头像样式 */
+        /* 头像样式优化 */
         .js-avatar {
             width: 150px;
             height: 150px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid #fff;
+            margin-bottom: 20px;
         }
-        /* 按钮样式优化 */
+        /* 按钮样式优化 - 悬停有渐变效果，确保按钮不挤在一起 */
         .blog-button {
             color: #fff;
             text-decoration: none;
-            padding: 8px 16px;
-            margin: 0 5px;
+            padding: 10px 18px;
+            margin: 0 8px 15px 8px; /* 增加间距，避免按钮重叠 */
             border: 1px solid #fff;
-            border-radius: 4px;
+            border-radius: 6px;
             display: inline-block;
-            margin-bottom: 10px;
             transition: all 0.3s;
+            background-color: rgba(255, 255, 255, 0.1);
+            font-size: 15px;
         }
         .blog-button:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
-        /* 文字样式 */
+        /* 文字样式优化 */
         .panel-title a {
             color: #fff;
             text-decoration: none;
             font-size: 36px;
             margin: 20px 0;
             display: inline-block;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         .panel-subtitle {
             font-size: 18px;
-            margin: 15px 0;
+            margin: 15px 0 25px 0;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         .panel-cover__description {
             font-size: 16px;
             line-height: 1.6;
-            margin: 20px 0;
+            margin: 20px 0 30px 0;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
+        /* 导航样式 - 确保模块分行显示，不拥挤 */
         .navigation {
             list-style: none;
-            margin: 20px 0;
+            margin: 15px 0;
+            padding: 0;
         }
         .navigation__item {
             display: inline-block;
             margin: 0 5px;
+        }
+        /* 社交导航单独间距 */
+        .navigation--social .navigation__item {
+            margin: 0 10px;
+        }
+        .navigation--social .blog-button {
+            padding: 8px 12px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -112,12 +130,11 @@
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
                 <div class="panel-main__content">
-                    <!-- 头像区域 -->
+                    <!-- 头像区域（替换成自己的头像URL即可） -->
                     <div class="ih-item circle effect right_to_left">            
                         <a href="#" title="" class="blog-button">
                             <div class="img">
-                                <!-- 替换成自己的头像地址即可 -->
-                                <img src="https://picsum.photos/150/150" alt="头像" class="js-avatar iUp profilepic">
+                                <img src="https://picsum.photos/id/64/150/150" alt="头像" class="js-avatar iUp profilepic">
                             </div>
                             <div class="info iUp">
                                 <div class="info-back">
@@ -142,7 +159,7 @@
                         <strong>-「青云如梦」</strong>
                     </p>
                     
-                    <!-- 主导航 -->
+                    <!-- 主导航模块（完整保留：性格测试、加我QQ、资源库吖、找我办卡） -->
                     <div class="navigation-wrapper iUp">
                         <div>
                             <nav class="cover-navigation cover-navigation--primary">
@@ -163,8 +180,8 @@
                             </nav>
                         </div>
                         
-                        <!-- 社交导航 -->
-                        <div class="iUp">
+                        <!-- 社交导航模块（完整保留） -->
+                        <div class="iUp" style="margin-top: 20px;">
                             <nav class="cover-navigation navigation--social">
                                 <ul class="navigation">
                                     <li class="navigation__item">
@@ -202,31 +219,41 @@
         <div class="remark iUp"></div>      
     </header>
 
-    <!-- 背景图加载脚本 - 直接用完整URL，无需函数拼接 -->
+    <!-- 背景图加载核心脚本（Picsum + Unsplash 双图源） -->
     <script>
-        // 简化版背景图设置函数（直接使用传入的完整URL）
-        function getBingImages(fullImageUrls) {
-            // 随机选一张背景图
-            const randomIndex = Math.floor(Math.random() * fullImageUrls.length);
-            const randomImageUrl = fullImageUrls[randomIndex];
-            // 设置为背景
+        // 背景图列表：混合Picsum（指定ID固定风格）+ Unsplash（主题随机）
+        const backgroundImages = [
+            // Picsum指定ID图（风格固定，不会随机变）
+            "https://picsum.photos/id/1018/1920/1080", // 雪山风景
+            "https://picsum.photos/id/1039/1920/1080", // 湖景
+            "https://picsum.photos/id/1043/1920/1080", // 森林
+            // Unsplash主题随机图（每次刷新换不同的同主题图）
+            "https://source.unsplash.com/random/1920x1080/?star,night", // 星空夜景
+            "https://source.unsplash.com/random/1920x1080/?ocean,wave", // 海洋波浪
+            "https://source.unsplash.com/random/1920x1080/?flower,spring", // 春日花卉
+            "https://source.unsplash.com/random/1920x1080/?mountain,sky" // 山川天空
+        ];
+
+        // 随机选择一张背景图并设置
+        function setRandomBackground() {
+            const randomIndex = Math.floor(Math.random() * backgroundImages.length);
+            const randomImageUrl = backgroundImages[randomIndex];
             const panel = document.getElementById('panel');
             if (panel) {
-                panel.style.backgroundImage = `url(${randomImageUrl})`;
+                // 先加载图片再设置，避免白屏
+                const img = new Image();
+                img.src = randomImageUrl;
+                img.onload = function() {
+                    panel.style.backgroundImage = `url(${randomImageUrl})`;
+                };
             }
         }
 
-        // 重点：这里直接传入完整的必应图片URL（已补全域名）
-        getBingImages([
-            "https://www.bing.com/th?id=OHR.NuzzleManatee_EN-US6719438929_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
-            "https://www.bing.com/th?id=OHR.MWDolomites_EN-US2413806289_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
-            "https://www.bing.com/th?id=OHR.NYCClouds_EN-US7251713390_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
-            "https://www.bing.com/th?id=OHR.WildAnza_EN-US9575120232_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
-            "https://www.bing.com/th?id=OHR.CecilBrewerStaircase_EN-US7912658969_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
-            "https://www.bing.com/th?id=OHR.WildGarlic_EN-US8549203860_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
-            "https://www.bing.com/th?id=OHR.CloudsPatagonia_EN-US4941579050_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
-            "https://www.bing.com/th?id=OHR.LakePowellAerial_EN-US5762979140_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp"
-        ]);
+        // 页面加载完成后自动设置背景图
+        window.addEventListener('load', setRandomBackground);
+
+        // 可选：点击页面刷新背景图（增加互动性）
+        document.getElementById('panel').addEventListener('click', setRandomBackground);
 
         // 邮箱解密函数（保留原有功能）
         function decryptEmail(encoded) {
