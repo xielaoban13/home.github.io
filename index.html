@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,14 +13,97 @@
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/dmego-home-page@latest/assets/css/iconfont.css">
     <link rel="apple-touch-icon" href="https://unpkg.com/dmego-home-page@latest/apple-touch-icon.png">
     <link rel="icon" href="https://unpkg.com/dmego-home-page@latest/favicon.ico">
+    <style>
+        /* 全局样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Microsoft Yahei", sans-serif;
+        }
+        /* 背景面板核心样式 - 确保背景图铺满屏幕 */
+        #panel.panel-cover {
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+        /* 背景遮罩层 - 让文字更清晰 */
+        .panel-cover--overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+        /* 内容层 - 显示在遮罩层上方 */
+        .panel-main {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+            color: #fff;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 80px;
+        }
+        /* 头像样式 */
+        .js-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+        }
+        /* 按钮样式优化 */
+        .blog-button {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border: 1px solid #fff;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        .blog-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        /* 文字样式 */
+        .panel-title a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 36px;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        .panel-subtitle {
+            font-size: 18px;
+            margin: 15px 0;
+        }
+        .panel-cover__description {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        .navigation {
+            list-style: none;
+            margin: 20px 0;
+        }
+        .navigation__item {
+            display: inline-block;
+            margin: 0 5px;
+        }
+    </style>
 </head>
-
 <body>
-    <span class="mobile btn-mobile-menu">
-        <i class="social iconfont icon-list btn-mobile-menu__icon"></i>
-        <i class="social iconfont icon-angleup btn-mobile-close__icon hidden"></i>
-    </span>
-    <header id="panel" class="panel-cover">
     <span class="mobile btn-mobile-menu">
         <i class="social iconfont icon-list btn-mobile-menu__icon"></i>
         <i class="social iconfont icon-angleup btn-mobile-close__icon hidden"></i>
@@ -31,44 +112,41 @@
         <div class="panel-main">
             <div class="panel-main__inner panel-inverted">
                 <div class="panel-main__content">
+                    <!-- 头像区域 -->
                     <div class="ih-item circle effect right_to_left">            
                         <a href="#" title="" class="blog-button">
-                            <div class="img"><img src="./assets/img/QQ图片20240308212034.jpg" alt="img" class="js-avatar iUp profilepic"></div>
+                            <div class="img">
+                                <!-- 替换成自己的头像地址即可 -->
+                                <img src="https://picsum.photos/150/150" alt="头像" class="js-avatar iUp profilepic">
+                            </div>
                             <div class="info iUp">
                                 <div class="info-back">
-                                    <h2> 
-                                        
-                                            之昂張
-                                        
-                                    </h2>
-                                    <p>
-                                        
-                                            2024 · 勇敢
-                                        
-                                    </p>
+                                    <h2>之昂張</h2>
+                                    <p>2024 · 勇敢</p>
                                 </div>
                             </div>
                         </a>
                     </div>
+                    
+                    <!-- 标题区域 -->
                     <h1 class="panel-cover__title panel-title iUp">
                         <a href="#" title="Dream Home">Dream</a>
                     </h1>
                     <p class="panel-cover__subtitle panel-subtitle iUp">知其不可奈何而安之若命.</p>
                     <hr class="panel-cover__divider iUp" />
-                    <p id="description" class="panel-cover__description iUp">如何得与凉风约, 不共尘沙一并来!
+                    
+                    <!-- 描述区域 -->
+                    <p id="description" class="panel-cover__description iUp">
+                        如何得与凉风约, 不共尘沙一并来!
                         <br/>
                         <strong>-「青云如梦」</strong>
                     </p>
+                    
+                    <!-- 主导航 -->
                     <div class="navigation-wrapper iUp">
                         <div>
                             <nav class="cover-navigation cover-navigation--primary">
                                 <ul class="navigation">
-                                   <!--  <li class="navigation__item">
-                                        <a href="https://photo.dreamzhm519.eu.org/" class="blog-button">相册</a>
-                                    </li>
-                                     <li class="navigation__item">
-                                        <a href="https://time.dreamzhm519.eu.org/" class="blog-button" target="_blank">我们</a>
-                                    </li> -->
                                     <li class="navigation__item">
                                         <a href="https://sourl.cn/z2J7Qi" class="blog-button" target="_blank">性格测试</a>
                                     </li>
@@ -84,6 +162,8 @@
                                 </ul>
                             </nav>
                         </div>
+                        
+                        <!-- 社交导航 -->
                         <div class="iUp">
                             <nav class="cover-navigation navigation--social">
                                 <ul class="navigation">
@@ -99,7 +179,6 @@
                                             <span class="label">cnblogs</span>
                                         </a>
                                     </li>
-
                                     <li class="navigation__item">
                                         <a href="https://dai.dreamzhm519.eu.org/proxy/www.google.com/search?q=" title="google" target="_blank">
                                             <i class='social iconfont icon-zhihu'></i>
@@ -107,9 +186,7 @@
                                         </a>
                                     </li>
                                     <li class="navigation__item">
-                                        <!-- 加密的邮箱地址, 请自行修改, 或者改用下方的明文方式 -->
                                         <a href="javascript:decryptEmail('eGllbGFvYmFuNDczQGdtYWlsLmNvbQ==');" title="email">
-                                        <!-- <a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=wvD69fP09vL19PKCs7Psoa2v" title="email"> -->
                                             <i class='social iconfont icon-email'></i>
                                             <span class="label">email</span>
                                         </a>
@@ -122,15 +199,40 @@
             </div>
             <div class="panel-cover--overlay cover-slate"></div>
         </div>
-        <!-- <div class="beian iUp">
-            <a class="icp" href="http://www.miitbeian.gov.cn/publish/query/indexFirst.action" target="_blank">XXX</a>
-            <a class="gwab" href="http://www.beian.gov.cn/portal/recordQuery" target="_blank">XXX</a>
-        </div> -->
-        <div class="remark iUp">
-        </div>      
+        <div class="remark iUp"></div>      
     </header>
-  <script type="text/javascript" src="https://unpkg.com/dmego-home-page@latest/assets/js/main.js"></script>
-    <script type="text/javascript" src="./assets/json/images.json?cb=getBingImages"></script>
+
+    <!-- 背景图加载脚本 - 直接用完整URL，无需函数拼接 -->
+    <script>
+        // 简化版背景图设置函数（直接使用传入的完整URL）
+        function getBingImages(fullImageUrls) {
+            // 随机选一张背景图
+            const randomIndex = Math.floor(Math.random() * fullImageUrls.length);
+            const randomImageUrl = fullImageUrls[randomIndex];
+            // 设置为背景
+            const panel = document.getElementById('panel');
+            if (panel) {
+                panel.style.backgroundImage = `url(${randomImageUrl})`;
+            }
+        }
+
+        // 重点：这里直接传入完整的必应图片URL（已补全域名）
+        getBingImages([
+            "https://www.bing.com/th?id=OHR.NuzzleManatee_EN-US6719438929_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
+            "https://www.bing.com/th?id=OHR.MWDolomites_EN-US2413806289_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
+            "https://www.bing.com/th?id=OHR.NYCClouds_EN-US7251713390_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
+            "https://www.bing.com/th?id=OHR.WildAnza_EN-US9575120232_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
+            "https://www.bing.com/th?id=OHR.CecilBrewerStaircase_EN-US7912658969_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
+            "https://www.bing.com/th?id=OHR.WildGarlic_EN-US8549203860_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
+            "https://www.bing.com/th?id=OHR.CloudsPatagonia_EN-US4941579050_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
+            "https://www.bing.com/th?id=OHR.LakePowellAerial_EN-US5762979140_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp"
+        ]);
+
+        // 邮箱解密函数（保留原有功能）
+        function decryptEmail(encoded) {
+            const decoded = atob(encoded);
+            window.location.href = `mailto:${decoded}`;
+        }
+    </script>
 </body>
 </html>
-
